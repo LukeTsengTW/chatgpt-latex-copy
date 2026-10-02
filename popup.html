@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChatGPT LaTeX Copy</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="panel">
+    <div class="brand">
+      <img src="icons/icon48.png" alt="" width="36" height="36">
+      <div>
+        <h1>ChatGPT LaTeX Copy</h1>
+        <p id="description"></p>
+      </div>
+    </div>
+
+    <label for="language-select" id="language-label"></label>
+    <select id="language-select"></select>
+
+    <p id="browser-language" class="meta"></p>
+    <p id="status" class="status" aria-live="polite"></p>
+  </main>
+
+  <script src="localization.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
