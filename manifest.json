@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT LaTeX Copy",
+  "version": "1.5.0",
+  "description": "Hover a ChatGPT formula to see a left-click copy hint, then click to copy that formula as LaTeX.",
+  "permissions": [
+    "clipboardWrite"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
