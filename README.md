@@ -13,7 +13,10 @@ A lightweight Chrome extension for copying LaTeX directly from formulas rendered
 - Display formulas are copied as `$$...$$`
 - Reads the original TeX from KaTeX's `annotation[encoding="application/x-tex"]`
 - Works with dynamically rendered ChatGPT responses through `MutationObserver`
-- Automatically follows Chrome's UI language through `chrome.i18n`
+- Automatically follows Chrome's UI language by default
+- Lets users manually override the extension display language from the toolbar popup
+- Saves the selected language with `chrome.storage.sync`
+- Applies language changes to open ChatGPT tabs immediately
 
 ## Supported languages
 
@@ -26,7 +29,27 @@ A lightweight Chrome extension for copying LaTeX directly from formulas rendered
 - French (`fr`)
 - German (`de`)
 
-Chrome automatically selects the best matching locale. If a localized message is unavailable, the extension falls back to English.
+## Language settings
+
+Click the **ChatGPT LaTeX Copy** icon in the Chrome toolbar to open the language selector.
+
+Available choices:
+
+- **Follow browser language** — uses Chrome's current UI language
+- English
+- 繁體中文
+- 简体中文
+- 日本語
+- 한국어
+- Español
+- Français
+- Deutsch
+
+The selected preference is stored with `chrome.storage.sync`, so it can follow the user's Chrome profile where extension sync is available.
+
+Runtime UI such as the hover hint, success message, error messages, and the popup itself follows the manually selected language.
+
+> Chrome's extension name and description shown in browser-managed UI such as `chrome://extensions/` are still localized by Chrome's Manifest i18n system and therefore follow Chrome's UI language. Chrome does not allow those manifest strings to be changed dynamically at runtime.
 
 ## Example
 
@@ -55,15 +78,18 @@ $$
 
 ## Usage
 
-Move the mouse over a rendered formula in ChatGPT. The extension shows a copy hint in the current Chrome UI language. Left-click the formula to copy its LaTeX source.
+Move the mouse over a rendered formula in ChatGPT. The extension shows a copy hint in the selected display language. Left-click the formula to copy its LaTeX source.
 
 After a successful copy, the formula is briefly highlighted and the localized success message is displayed.
 
 ## Internationalization
 
-Localization uses Chrome Extension's native `chrome.i18n` API.
+The extension uses two layers of localization:
 
-Localized strings live under:
+1. Chrome Manifest i18n under `_locales/` for browser-managed extension metadata.
+2. `localization.js` for runtime language switching in the popup and ChatGPT content script.
+
+Localized manifest strings live under:
 
 ```text
 _locales/
@@ -87,18 +113,20 @@ The manifest uses:
 }
 ```
 
-User-visible strings in `content.js` are resolved with `chrome.i18n.getMessage()`.
-
 ## Version
 
-Current version: **1.6.0**
+Current version: **1.7.0**
 
 ## Files
 
-- `manifest.json` — Chrome Manifest V3 configuration and localization metadata
-- `content.js` — formula detection, localized hover interaction, and clipboard logic
+- `manifest.json` — Chrome Manifest V3 configuration
+- `content.js` — formula detection, hover interaction, clipboard logic, and live language updates
 - `content.css` — hover, success, and hint styles
-- `_locales/*/messages.json` — localized user-visible strings
+- `localization.js` — supported languages, translations, browser-language detection, and stored preference helpers
+- `popup.html` — toolbar language settings UI
+- `popup.css` — toolbar popup styles
+- `popup.js` — manual language selection and persistence
+- `_locales/*/messages.json` — browser-managed localized extension metadata
 - `icons/` — extension icons
 
 ## Notes
@@ -107,7 +135,7 @@ This extension depends on KaTeX markup currently exposed by the ChatGPT web inte
 
 ## Extension icon
 
-The extension includes PNG icons in 16, 32, 48, and 128 pixel sizes under `icons/`. The icon is registered through the Manifest V3 `icons` field.
+The extension includes PNG icons in 16, 32, 48, and 128 pixel sizes under `icons/`. The icon is registered through the Manifest V3 `icons` and `action.default_icon` fields.
 
 ## License
 
