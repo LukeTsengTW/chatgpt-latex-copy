@@ -4,31 +4,15 @@
   const SUCCESS_CLASS = 'chatgpt-latex-copy-success';
   const HINT_ID = 'chatgpt-latex-copy-hint';
 
-  const FALLBACK_MESSAGES = {
-    copyFormulaHint: 'Left-click to copy formula',
-    copySuccess: 'Copied',
-    latexNotFound: 'LaTeX not found',
-    copyFailed: 'Copy failed'
-  };
-
-  function t(messageName) {
-    if (typeof chrome !== 'undefined' && chrome.i18n?.getMessage) {
-      const localized = chrome.i18n.getMessage(messageName);
-      if (localized) return localized;
-    }
-
-    return FALLBACK_MESSAGES[messageName] || messageName;
-  }
-
-  console.info(
-    '[ChatGPT LaTeX Copy] v1.6.0 loaded',
-    typeof chrome !== 'undefined' && chrome.i18n?.getUILanguage
-      ? `(${chrome.i18n.getUILanguage()})`
-      : ''
-  );
+  const I18N = globalThis.ChatGPTLatexCopyI18n;
 
   let activeFormula = null;
   let hideTimer = null;
+  let currentLocale = 'en';
+
+  function t(key) {
+    return I18N.t(key, currentLocale);
+  }
 
   function extractLatex(element) {
     const annotation = element.querySelector(
@@ -219,15 +203,43 @@
     positionHint(activeFormula, hint);
   }
 
-  scanFormulas();
+  async function init() {
+    currentLocale = await I18N.getEffectiveLocale();
 
-  const observer = new MutationObserver(scheduleScan);
+    console.info(
+      '[ChatGPT LaTeX Copy] v1.7.0 loaded',
+      `(display language: ${currentLocale})`
+    );
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
+    scanFormulas();
 
-  window.addEventListener('scroll', refreshHintPosition, true);
-  window.addEventListener('resize', refreshHintPosition);
+    const observer = new MutationObserver(scheduleScan);
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    chrome.storage.onChanged.addListener((changes, areaName) => {
+      if (
+        areaName !== 'sync' ||
+        !changes[I18N.STORAGE_KEY]
+      ) {
+        return;
+      }
+
+      currentLocale = I18N.resolveEffectiveLocale(
+        changes[I18N.STORAGE_KEY].newValue
+      );
+
+      if (activeFormula) {
+        showHint(activeFormula, t('copyFormulaHint'), 'hint');
+      }
+    });
+
+    window.addEventListener('scroll', refreshHintPosition, true);
+    window.addEventListener('resize', refreshHintPosition);
+  }
+
+  init();
 })();
