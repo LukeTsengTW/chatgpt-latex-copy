@@ -1,0 +1,20 @@
+{
+  "extensionName": {
+    "message": "ChatGPT LaTeX Copy"
+  },
+  "extensionDescription": {
+    "message": "ChatGPT の数式にカーソルを合わせ、左クリックして LaTeX としてコピーします。"
+  },
+  "copyFormulaHint": {
+    "message": "左クリックで数式をコピー"
+  },
+  "copySuccess": {
+    "message": "コピーしました"
+  },
+  "latexNotFound": {
+    "message": "LaTeX が見つかりません"
+  },
+  "copyFailed": {
+    "message": "コピーに失敗しました"
+  }
+}
