@@ -4,7 +4,28 @@
   const SUCCESS_CLASS = 'chatgpt-latex-copy-success';
   const HINT_ID = 'chatgpt-latex-copy-hint';
 
-  console.info('[ChatGPT LaTeX Copy] v1.5.0 loaded');
+  const FALLBACK_MESSAGES = {
+    copyFormulaHint: 'Left-click to copy formula',
+    copySuccess: 'Copied',
+    latexNotFound: 'LaTeX not found',
+    copyFailed: 'Copy failed'
+  };
+
+  function t(messageName) {
+    if (typeof chrome !== 'undefined' && chrome.i18n?.getMessage) {
+      const localized = chrome.i18n.getMessage(messageName);
+      if (localized) return localized;
+    }
+
+    return FALLBACK_MESSAGES[messageName] || messageName;
+  }
+
+  console.info(
+    '[ChatGPT LaTeX Copy] v1.6.0 loaded',
+    typeof chrome !== 'undefined' && chrome.i18n?.getUILanguage
+      ? `(${chrome.i18n.getUILanguage()})`
+      : ''
+  );
 
   let activeFormula = null;
   let hideTimer = null;
@@ -92,7 +113,7 @@
     hint.style.visibility = 'visible';
   }
 
-  function showHint(formula, text = '左鍵複製公式', state = 'hint') {
+  function showHint(formula, text = t('copyFormulaHint'), state = 'hint') {
     clearTimeout(hideTimer);
 
     const hint = getHint();
@@ -118,7 +139,7 @@
     const text = formatLatex(formula);
 
     if (!text) {
-      showHint(formula, '找不到 LaTeX', 'error');
+      showHint(formula, t('latexNotFound'), 'error');
       return;
     }
 
@@ -126,18 +147,18 @@
       await navigator.clipboard.writeText(text);
 
       formula.classList.add(SUCCESS_CLASS);
-      showHint(formula, '複製成功', 'success');
+      showHint(formula, t('copySuccess'), 'success');
 
       setTimeout(() => {
         formula.classList.remove(SUCCESS_CLASS);
 
         if (activeFormula === formula) {
-          showHint(formula, '左鍵複製公式', 'hint');
+          showHint(formula, t('copyFormulaHint'), 'hint');
         }
       }, 900);
     } catch (error) {
       console.error('[ChatGPT LaTeX Copy] copy failed:', error);
-      showHint(formula, '複製失敗', 'error');
+      showHint(formula, t('copyFailed'), 'error');
     }
   }
 
@@ -150,7 +171,7 @@
     formula.addEventListener('mouseenter', () => {
       activeFormula = formula;
       formula.classList.add(HOVER_CLASS);
-      showHint(formula, '左鍵複製公式', 'hint');
+      showHint(formula, t('copyFormulaHint'), 'hint');
     });
 
     formula.addEventListener('mouseleave', () => {
