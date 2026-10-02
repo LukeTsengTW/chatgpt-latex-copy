@@ -1,0 +1,44 @@
+.katex.chatgpt-latex-copy-hover,
+.katex-display.chatgpt-latex-copy-hover {
+  outline: 1px solid rgba(128, 128, 128, 0.6);
+  outline-offset: 4px;
+  border-radius: 5px;
+  cursor: copy;
+}
+
+.katex.chatgpt-latex-copy-success,
+.katex-display.chatgpt-latex-copy-success {
+  outline: 2px solid rgba(34, 197, 94, 0.9);
+  outline-offset: 4px;
+  border-radius: 5px;
+}
+
+#chatgpt-latex-copy-hint {
+  position: fixed;
+  z-index: 2147483647;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  background: rgba(32, 32, 32, 0.96);
+  color: #ffffff;
+
+  font: 500 12px/1.2 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  pointer-events: none;
+  user-select: none;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+#chatgpt-latex-copy-hint[data-state="success"] {
+  background: rgba(22, 101, 52, 0.96);
+}
+
+#chatgpt-latex-copy-hint[data-state="error"] {
+  background: rgba(127, 29, 29, 0.96);
+}
+
+#chatgpt-latex-copy-hint[hidden] {
+  display: none !important;
+}
