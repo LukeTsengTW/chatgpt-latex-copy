@@ -1,0 +1,16 @@
+{
+  "name": "chatgpt-latex-copy",
+  "version": "1.8.0",
+  "private": true,
+  "description": "Chrome extension for copying ChatGPT-rendered formulas as LaTeX and previewing Markdown with KaTeX.",
+  "scripts": {
+    "build:preview": "esbuild src/preview-deps.js --bundle --minify --format=iife --target=chrome109 --outfile=vendor/preview-deps.js --legal-comments=linked"
+  },
+  "dependencies": {
+    "katex": "0.18.7",
+    "marked": "18.0.14"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}
