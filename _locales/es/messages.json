@@ -1,0 +1,20 @@
+{
+  "extensionName": {
+    "message": "ChatGPT LaTeX Copy"
+  },
+  "extensionDescription": {
+    "message": "Pasa el cursor sobre una fórmula de ChatGPT y haz clic izquierdo para copiarla como LaTeX."
+  },
+  "copyFormulaHint": {
+    "message": "Clic izquierdo para copiar la fórmula"
+  },
+  "copySuccess": {
+    "message": "Copiado"
+  },
+  "latexNotFound": {
+    "message": "No se encontró LaTeX"
+  },
+  "copyFailed": {
+    "message": "Error al copiar"
+  }
+}
