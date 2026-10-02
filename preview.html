@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markdown + KaTeX Preview — ChatGPT LaTeX Copy</title>
+  <link rel="stylesheet" href="preview.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img src="icons/icon48.png" alt="" width="40" height="40">
+        <div>
+          <h1 id="preview-title">Markdown + KaTeX Preview</h1>
+          <p id="preview-subtitle"></p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button id="sample-button" type="button"></button>
+        <button id="clear-button" type="button" class="secondary"></button>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <section class="pane editor-pane">
+        <div class="pane-heading">
+          <h2 id="editor-label"></h2>
+          <span id="local-note" class="pane-note"></span>
+        </div>
+        <textarea
+          id="markdown-input"
+          spellcheck="false"
+          autocomplete="off"
+          aria-label="Markdown editor"
+        ></textarea>
+      </section>
+
+      <section class="pane preview-pane">
+        <div class="pane-heading">
+          <h2 id="output-label"></h2>
+          <span id="render-status" class="pane-note" aria-live="polite"></span>
+        </div>
+        <article id="preview-output" class="markdown-preview"></article>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="localization.js"></script>
+  <script src="vendor/purify.min.js"></script>
+  <script src="vendor/preview-deps.js"></script>
+  <script src="preview.js"></script>
+</body>
+</html>
