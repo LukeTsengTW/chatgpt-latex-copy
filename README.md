@@ -1,5 +1,7 @@
 # ChatGPT LaTeX Copy
 
+![ChatGPT LaTeX Copy icon](icons/icon128.png)
+
 A lightweight Chrome extension for copying LaTeX directly from formulas rendered in the ChatGPT web interface.
 
 ## Features
@@ -56,3 +58,11 @@ Current version: **1.5.0**
 ## Notes
 
 This extension depends on KaTeX markup currently exposed by the ChatGPT web interface. If ChatGPT changes its formula-rendering DOM in the future, selectors may need to be updated.
+
+## Extension icon
+
+The extension includes PNG icons in 16, 32, 48, and 128 pixel sizes under `icons/`. The icon is registered through the Manifest V3 `icons` field.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
