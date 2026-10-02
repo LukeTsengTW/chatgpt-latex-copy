@@ -1,0 +1,20 @@
+{
+  "extensionName": {
+    "message": "ChatGPT LaTeX Copy"
+  },
+  "extensionDescription": {
+    "message": "将鼠标悬停在 ChatGPT 公式上，单击鼠标左键即可复制 LaTeX。"
+  },
+  "copyFormulaHint": {
+    "message": "左键复制公式"
+  },
+  "copySuccess": {
+    "message": "复制成功"
+  },
+  "latexNotFound": {
+    "message": "找不到 LaTeX"
+  },
+  "copyFailed": {
+    "message": "复制失败"
+  }
+}
