@@ -6,13 +6,27 @@ A lightweight Chrome extension for copying LaTeX directly from formulas rendered
 
 ## Features
 
-- Hover over a rendered ChatGPT formula to show **「左鍵複製公式」**
+- Hover over a rendered ChatGPT formula to show a localized copy hint
 - Left-click the formula to copy only that formula
-- Shows **「複製成功」** after a successful copy
+- Shows localized success/error feedback
 - Inline formulas are copied as `$...$`
 - Display formulas are copied as `$$...$$`
 - Reads the original TeX from KaTeX's `annotation[encoding="application/x-tex"]`
 - Works with dynamically rendered ChatGPT responses through `MutationObserver`
+- Automatically follows Chrome's UI language through `chrome.i18n`
+
+## Supported languages
+
+- English (`en`) — default / fallback
+- Traditional Chinese (`zh_TW`)
+- Simplified Chinese (`zh_CN`)
+- Japanese (`ja`)
+- Korean (`ko`)
+- Spanish (`es`)
+- French (`fr`)
+- German (`de`)
+
+Chrome automatically selects the best matching locale. If a localized message is unavailable, the extension falls back to English.
 
 ## Example
 
@@ -41,19 +55,51 @@ $$
 
 ## Usage
 
-Move the mouse over a rendered formula in ChatGPT. A hint reading **「左鍵複製公式」** will appear. Left-click the formula to copy its LaTeX source.
+Move the mouse over a rendered formula in ChatGPT. The extension shows a copy hint in the current Chrome UI language. Left-click the formula to copy its LaTeX source.
 
-After a successful copy, the formula is briefly highlighted and the hint changes to **「複製成功」**.
+After a successful copy, the formula is briefly highlighted and the localized success message is displayed.
+
+## Internationalization
+
+Localization uses Chrome Extension's native `chrome.i18n` API.
+
+Localized strings live under:
+
+```text
+_locales/
+├── en/messages.json
+├── zh_TW/messages.json
+├── zh_CN/messages.json
+├── ja/messages.json
+├── ko/messages.json
+├── es/messages.json
+├── fr/messages.json
+└── de/messages.json
+```
+
+The manifest uses:
+
+```json
+{
+  "default_locale": "en",
+  "name": "__MSG_extensionName__",
+  "description": "__MSG_extensionDescription__"
+}
+```
+
+User-visible strings in `content.js` are resolved with `chrome.i18n.getMessage()`.
 
 ## Version
 
-Current version: **1.5.0**
+Current version: **1.6.0**
 
 ## Files
 
-- `manifest.json` — Chrome Manifest V3 configuration
-- `content.js` — formula detection, hover interaction, and clipboard logic
+- `manifest.json` — Chrome Manifest V3 configuration and localization metadata
+- `content.js` — formula detection, localized hover interaction, and clipboard logic
 - `content.css` — hover, success, and hint styles
+- `_locales/*/messages.json` — localized user-visible strings
+- `icons/` — extension icons
 
 ## Notes
 
