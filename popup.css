@@ -70,3 +70,27 @@ select {
   opacity: 1;
   font-weight: 600;
 }
+
+
+.preview-action {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+}
+
+#open-preview {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  border: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, CanvasText 7%, Canvas);
+  color: CanvasText;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#open-preview:hover {
+  background: color-mix(in srgb, CanvasText 11%, Canvas);
+}
