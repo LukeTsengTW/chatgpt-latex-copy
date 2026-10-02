@@ -17,6 +17,26 @@ A lightweight Chrome extension for copying LaTeX directly from formulas rendered
 - Lets users manually override the extension display language from the toolbar popup
 - Saves the selected language with `chrome.storage.sync`
 - Applies language changes to open ChatGPT tabs immediately
+- Includes a built-in **Markdown + KaTeX Preview** with live rendering for `$...# ChatGPT LaTeX Copy
+
+![ChatGPT LaTeX Copy icon](icons/icon128.png)
+
+A lightweight Chrome extension for copying LaTeX directly from formulas rendered in the ChatGPT web interface.
+
+## Features
+
+- Hover over a rendered ChatGPT formula to show a localized copy hint
+- Left-click the formula to copy only that formula
+- Shows localized success/error feedback
+- Inline formulas are copied as `$...$`
+- Display formulas are copied as `$$...$$`
+- Reads the original TeX from KaTeX's `annotation[encoding="application/x-tex"]`
+- Works with dynamically rendered ChatGPT responses through `MutationObserver`
+- Automatically follows Chrome's UI language by default
+- Lets users manually override the extension display language from the toolbar popup
+- Saves the selected language with `chrome.storage.sync`
+ and `$...$`
+- Sanitizes rendered Markdown locally with DOMPurify before displaying it
 
 ## Supported languages
 
@@ -50,6 +70,94 @@ The selected preference is stored with `chrome.storage.sync`, so it can follow t
 Runtime UI such as the hover hint, success message, error messages, and the popup itself follows the manually selected language.
 
 > Chrome's extension name and description shown in browser-managed UI such as `chrome://extensions/` are still localized by Chrome's Manifest i18n system and therefore follow Chrome's UI language. Chrome does not allow those manifest strings to be changed dynamically at runtime.
+
+## Markdown + KaTeX Preview
+
+Click the extension icon and choose **Open Markdown + KaTeX Preview** to open a split editor/preview page.
+
+The preview supports standard Markdown plus:
+
+- Inline math: `$f(x)=x^2# ChatGPT LaTeX Copy
+
+![ChatGPT LaTeX Copy icon](icons/icon128.png)
+
+A lightweight Chrome extension for copying LaTeX directly from formulas rendered in the ChatGPT web interface.
+
+## Features
+
+- Hover over a rendered ChatGPT formula to show a localized copy hint
+- Left-click the formula to copy only that formula
+- Shows localized success/error feedback
+- Inline formulas are copied as `$...$`
+- Display formulas are copied as `$$...$$`
+- Reads the original TeX from KaTeX's `annotation[encoding="application/x-tex"]`
+- Works with dynamically rendered ChatGPT responses through `MutationObserver`
+- Automatically follows Chrome's UI language by default
+- Lets users manually override the extension display language from the toolbar popup
+- Saves the selected language with `chrome.storage.sync`
+- Applies language changes to open ChatGPT tabs immediately
+- Includes a built-in **Markdown + KaTeX Preview** with live rendering for `$...# ChatGPT LaTeX Copy
+
+![ChatGPT LaTeX Copy icon](icons/icon128.png)
+
+A lightweight Chrome extension for copying LaTeX directly from formulas rendered in the ChatGPT web interface.
+
+## Features
+
+- Hover over a rendered ChatGPT formula to show a localized copy hint
+- Left-click the formula to copy only that formula
+- Shows localized success/error feedback
+- Inline formulas are copied as `$...$`
+- Display formulas are copied as `$$...$$`
+- Reads the original TeX from KaTeX's `annotation[encoding="application/x-tex"]`
+- Works with dynamically rendered ChatGPT responses through `MutationObserver`
+- Automatically follows Chrome's UI language by default
+- Lets users manually override the extension display language from the toolbar popup
+- Saves the selected language with `chrome.storage.sync`
+ and `$...$`
+- Sanitizes rendered Markdown locally with DOMPurify before displaying it
+
+## Supported languages
+
+- English (`en`) — default / fallback
+- Traditional Chinese (`zh_TW`)
+- Simplified Chinese (`zh_CN`)
+- Japanese (`ja`)
+- Korean (`ko`)
+- Spanish (`es`)
+- French (`fr`)
+- German (`de`)
+
+## Language settings
+
+Click the **ChatGPT LaTeX Copy** icon in the Chrome toolbar to open the language selector.
+
+Available choices:
+
+- **Follow browser language** — uses Chrome's current UI language
+- English
+- 繁體中文
+- 简体中文
+- 日本語
+- 한국어
+- Español
+- Français
+- Deutsch
+
+The selected preference is stored with `chrome.storage.sync`, so it can follow the user's Chrome profile where extension sync is available.
+
+Runtime UI such as the hover hint, success message, error messages, and the popup itself follows the manually selected language.
+
+> Chrome's extension name and description shown in browser-managed UI such as `chrome://extensions/` are still localized by Chrome's Manifest i18n system and therefore follow Chrome's UI language. Chrome does not allow those manifest strings to be changed dynamically at runtime.
+
+
+- Display math: `$...$`
+- GFM tables, lists, links, blockquotes, and fenced code blocks
+- Left-click copy for formulas rendered inside the preview
+
+Preview text is saved with `chrome.storage.local`, so the document stays on the current browser profile instead of being synchronized through the extension's language preference storage.
+
+The preview uses locally bundled dependencies. It does not load executable JavaScript from a CDN at runtime.
 
 ## Example
 
@@ -115,7 +223,7 @@ The manifest uses:
 
 ## Version
 
-Current version: **1.7.0**
+Current version: **1.8.0**
 
 ## Files
 
@@ -125,7 +233,11 @@ Current version: **1.7.0**
 - `localization.js` — supported languages, translations, browser-language detection, and stored preference helpers
 - `popup.html` — toolbar language settings UI
 - `popup.css` — toolbar popup styles
-- `popup.js` — manual language selection and persistence
+- `popup.js` — manual language selection, persistence, and preview launcher
+- `preview.html` / `preview.css` / `preview.js` — built-in Markdown + KaTeX preview
+- `src/preview-deps.js` — source entrypoint for locally bundled Marked and KaTeX
+- `vendor/preview-deps.js` — generated browser bundle for preview dependencies
+- `vendor/purify.min.js` — bundled DOMPurify sanitizer
 - `_locales/*/messages.json` — browser-managed localized extension metadata
 - `icons/` — extension icons
 
