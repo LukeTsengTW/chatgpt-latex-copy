@@ -196,6 +196,10 @@ Current version: **1.8.0**
 
 The ChatGPT formula-copy feature depends on KaTeX markup currently exposed by the ChatGPT web interface. If ChatGPT changes its formula-rendering DOM in the future, selectors may need to be updated.
 
+## Privacy Policy
+
+See [PRIVACY.md](PRIVACY.md) for details about local data processing, storage, and permissions.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
