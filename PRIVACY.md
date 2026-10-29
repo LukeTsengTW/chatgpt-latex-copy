@@ -1,6 +1,6 @@
 # Privacy Policy
 
-_Last updated: October 3, 2026_
+_Last updated: October 29, 2026_
 
 ChatGPT LaTeX Copy is a Chrome extension that helps users copy LaTeX from formulas rendered on ChatGPT and preview Markdown with mathematical notation.
 
@@ -10,7 +10,7 @@ This privacy policy explains what data the extension processes, where that data 
 
 ChatGPT LaTeX Copy does not collect, sell, transmit, or share user data with the developer or third parties.
 
-The extension processes data only as needed to provide its stated functionality. Formula extraction, Markdown rendering, and copy actions are performed locally in the user's browser.
+The extension processes data only as needed to provide its stated functionality. Formula extraction, selection-copy transformation, Markdown rendering, and copy actions are performed locally in the user's browser.
 
 The extension does not use analytics, advertising, tracking, telemetry, or a developer-operated backend server.
 
@@ -21,12 +21,13 @@ The extension does not use analytics, advertising, tracking, telemetry, or a dev
 On `https://chatgpt.com/`, the extension reads KaTeX-rendered mathematical formula elements so it can:
 
 - detect formulas rendered in ChatGPT;
-- extract the original TeX stored in KaTeX markup; and
-- copy the selected formula to the user's clipboard after an explicit left-click.
+- extract the original TeX stored in KaTeX markup;
+- copy an individual formula to the user's clipboard after an explicit left-click; and
+- when the user explicitly copies a text selection containing rendered formulas, temporarily process that selected content so the formulas can be replaced with their original LaTeX while preserving the surrounding text order.
 
-The extension does not intentionally collect or process the rest of the user's ChatGPT conversation.
+For selection copying, the extension processes only the content included in the user's active selection and only when the selection contains a recognized KaTeX formula. Selections without a recognized formula are left to the browser's normal copy behavior.
 
-Formula content is processed locally in the browser and is not transmitted to the developer or to any third party.
+The extension does not intentionally collect, retain, or transmit ChatGPT conversation content. Formula content and selected text are processed locally in the browser and are not sent to the developer or to any third party.
 
 ### Markdown preview content
 
@@ -48,7 +49,7 @@ The extension does not send this preference to the developer.
 
 ### `clipboardWrite`
 
-Used only when the user explicitly clicks a formula to copy its LaTeX source to the system clipboard.
+Used for explicit formula-copy actions initiated by the user. Individual formula copying writes the extracted LaTeX directly to the clipboard after a left-click. Mixed text/formula copying is handled only during a user-initiated browser copy event such as `Ctrl+C`, `Cmd+C`, or the context-menu Copy command.
 
 ### `storage`
 
@@ -59,7 +60,7 @@ Used for:
 
 ### Access to `https://chatgpt.com/*`
 
-Used only to detect and interact with KaTeX-rendered mathematical formulas on ChatGPT.
+Used only to detect and interact with KaTeX-rendered mathematical formulas on ChatGPT and to transform formulas inside an explicitly copied selection.
 
 The extension does not request access to all websites.
 
@@ -71,7 +72,7 @@ ChatGPT LaTeX Copy does not:
 - transfer user data to third parties for advertising or marketing;
 - use user data for purposes unrelated to the extension's functionality;
 - use user data to determine creditworthiness or for lending purposes; or
-- allow the developer or other people to read users' formula or Markdown content through any backend service.
+- allow the developer or other people to read users' formula, selected conversation, or Markdown content through any backend service.
 
 ## Remote code and third-party libraries
 
@@ -92,6 +93,8 @@ Markdown preview content remains in `chrome.storage.local` until the user clears
 The language preference remains in `chrome.storage.sync` until it is changed or removed, subject to Chrome's synchronization behavior and the user's Chrome sync settings.
 
 The developer does not maintain a separate copy of this data.
+
+Copied formula and selection content is not stored by the extension after the copy action completes.
 
 ## Security
 
