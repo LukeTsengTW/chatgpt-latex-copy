@@ -59,6 +59,7 @@
 
       const replacement = document.createElement('div');
       replacement.textContent = text;
+      replacement.style.whiteSpace = 'pre-wrap';
       formula.replaceWith(replacement);
       replacementCount += 1;
     });
@@ -83,7 +84,6 @@
       top: '0',
       width: 'max-content',
       maxWidth: 'none',
-      whiteSpace: 'pre-wrap',
       opacity: '0',
       pointerEvents: 'none',
       contain: 'layout style paint'
