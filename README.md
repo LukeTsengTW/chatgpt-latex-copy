@@ -8,6 +8,8 @@ A lightweight Chrome extension for copying LaTeX directly from formulas rendered
 
 - Hover over a rendered ChatGPT formula to show a localized copy hint
 - Left-click a formula to copy only that formula
+- Select mixed ChatGPT text and formulas, then use Copy / `Ctrl+C` / `Cmd+C` to copy them together
+- Replaces formulas inside copied selections with their original LaTeX while preserving surrounding text order
 - Shows localized success/error feedback
 - Copies inline formulas using the `$...$` delimiter
 - Copies display formulas using the `$$...$$` delimiter
@@ -112,7 +114,11 @@ $$
 
 Move the mouse over a rendered formula in ChatGPT. The extension shows a localized copy hint. Left-click the formula to copy its LaTeX source.
 
-After a successful copy, the formula is briefly highlighted and a localized success message is displayed.
+To copy a larger passage, select ChatGPT text containing one or more rendered formulas and use the normal browser copy action (`Ctrl+C`, `Cmd+C`, or the context-menu Copy command). The extension rewrites only the selected KaTeX formulas: inline formulas become `$...$`, while display formulas become `$$...$$`. Text outside the formulas keeps its original order.
+
+Selections without a recognized KaTeX formula are left to the browser's normal copy behavior.
+
+After a successful click-to-copy action, the formula is briefly highlighted and a localized success message is displayed.
 
 For Markdown preview, click the extension icon and select **Open Markdown + KaTeX Preview**.
 
@@ -150,6 +156,7 @@ The manifest uses:
 ## Privacy and local processing
 
 - Formula extraction is performed locally in the browser.
+- Selection-copy processing is performed locally and only when the copied selection contains recognized KaTeX formulas.
 - Preview rendering is performed locally in the browser.
 - Preview Markdown is stored with `chrome.storage.local`.
 - Display-language preference is stored with `chrome.storage.sync`.
@@ -176,12 +183,12 @@ See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for third-party license inf
 
 ## Version
 
-Current version: **1.8.0**
+Current version: **1.9.0**
 
 ## Project files
 
 - `manifest.json` — Chrome Manifest V3 configuration
-- `content.js` — ChatGPT formula detection, copying, and live language updates
+- `content.js` — ChatGPT formula detection, click/selection copying, and live language updates
 - `content.css` — formula hover and feedback styles
 - `localization.js` — runtime translations and language preference helpers
 - `popup.html` / `popup.css` / `popup.js` — toolbar settings and preview launcher
