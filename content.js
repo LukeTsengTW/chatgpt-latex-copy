@@ -50,6 +50,84 @@
     return formulas;
   }
 
+  function replaceSelectedFormulasWithLatex(fragment) {
+    let replacementCount = 0;
+
+    fragment.querySelectorAll('.katex-display').forEach((formula) => {
+      const text = formatLatex(formula);
+      if (!text) return;
+
+      const replacement = document.createElement('div');
+      replacement.textContent = text;
+      replacement.style.whiteSpace = 'pre-wrap';
+      formula.replaceWith(replacement);
+      replacementCount += 1;
+    });
+
+    fragment.querySelectorAll('.katex').forEach((formula) => {
+      const text = formatLatex(formula);
+      if (!text) return;
+
+      formula.replaceWith(document.createTextNode(text));
+      replacementCount += 1;
+    });
+
+    return replacementCount;
+  }
+
+  function fragmentToPlainText(fragment) {
+    const container = document.createElement('div');
+
+    Object.assign(container.style, {
+      position: 'fixed',
+      left: '-100000px',
+      top: '0',
+      width: 'max-content',
+      maxWidth: 'none',
+      opacity: '0',
+      pointerEvents: 'none',
+      contain: 'layout style paint'
+    });
+
+    container.setAttribute('aria-hidden', 'true');
+    container.appendChild(fragment);
+    document.body.appendChild(container);
+
+    try {
+      return container.innerText;
+    } finally {
+      container.remove();
+    }
+  }
+
+  function getSelectionLatexText() {
+    const selection = document.getSelection();
+
+    if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
+      return null;
+    }
+
+    const fragment = selection.getRangeAt(0).cloneContents();
+    const replacementCount = replaceSelectedFormulasWithLatex(fragment);
+
+    if (replacementCount === 0) {
+      return null;
+    }
+
+    return fragmentToPlainText(fragment);
+  }
+
+  function handleSelectionCopy(event) {
+    if (!event.clipboardData) return;
+
+    const text = getSelectionLatexText();
+    if (text === null) return;
+
+    event.clipboardData.setData('text/plain', text);
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
   function getHint() {
     let hint = document.getElementById(HINT_ID);
 
@@ -207,7 +285,7 @@
     currentLocale = await I18N.getEffectiveLocale();
 
     console.info(
-      '[ChatGPT LaTeX Copy] v1.7.0 loaded',
+      '[ChatGPT LaTeX Copy] v1.9.0 loaded',
       `(display language: ${currentLocale})`
     );
 
@@ -237,6 +315,7 @@
       }
     });
 
+    document.addEventListener('copy', handleSelectionCopy, true);
     window.addEventListener('scroll', refreshHintPosition, true);
     window.addEventListener('resize', refreshHintPosition);
   }
